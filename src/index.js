@@ -1,16 +1,18 @@
 require('dotenv').config();
-const express = require('express');
 const cors = require('cors');
 
-const router = require('./routes/router');
-
+const express = require('express');
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use(cors({ origin: true, credentials: true }));
 
-app.use('/', router);
+const crud = require('./routes/crudRouter')
 
-app.listen(process.env.SERVER_PORT, () => {console.log('Server Running')});
+app.use('/api/data', crud);
+
+
+app.listen(process.env.SERVER_PORT, process.env.SERVER_HOST, () => {
+    console.log(`Server is Running on http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`)
+});
